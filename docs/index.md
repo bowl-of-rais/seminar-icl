@@ -80,7 +80,7 @@ The main experiments in the paper focused on comparing the following three appro
 
 This graph shows the performance of each model with each of the 3 approaches for each task category (classification and multi-choice):
 
-![Results of the main experiments, Figure 3 in the paper](Pasted%20image%2020240306185652.png)
+![Results of the main experiments, Figure 3 in the paper](fig3.png)
 
 **It seems that using random labels in the examples works pretty much almost as well as using random labels!** This is already the main point of this paper. The authors admit that this is unexpected, because - well, shouldn't the information that certain inputs produce certain outputs matter? Why else should we even give examples in the first place?
 
@@ -94,7 +94,7 @@ One thing about the <span style="color:#fb8072">random labels</span> method is t
 
 The first ablation addresses this issue by using a range of fixed percentages of correct labels. 
 
-![Results of experiments with varying percentages of correct labels, Figure 4 in the paper](Pasted%20image%2020240306190239.png)
+![Results of experiments with varying percentages of correct labels, Figure 4 in the paper](fig4.png)
 
 The main takeaway here is: using examples with all wrong labels still seems to produce noticeably better results than the no-example baseline. Also, the MetaICL model seems to be especially robust in this aspect.
 ##### 2. Does the number of examples matter?
@@ -102,7 +102,7 @@ The main takeaway here is: using examples with all wrong labels still seems to p
 As noted earlier, each experiment run used $k=16$ examples. But especially with larger models, using long inputs can become vey costly %%TODO: source?%%. The second ablation therefore aims to see whether we really need that many examples to achieve the performance increases we've seen.
 %%TODO: models?%%
 
-![Results of experiments with varying numbers of demonstrations, Figure 5 in the paper](Pasted%20image%2020240306190357.png)
+![Results of experiments with varying numbers of demonstrations, Figure 5 in the paper](fig5.png)
 
 According to these results, increasing the number of examples beyond 8 does not really improve performance.
 ##### 3. Does the way in which the examples are presented matter?
@@ -120,8 +120,7 @@ Here are some examples, taken from the paper's appendix, to show you the differe
 > <span style="color:#d3ff9e">I coughed</span> because {<span style="color:#fea9d2">I inhaled smoke.|I lowered my voice.</span>}
 
 As for the results: the use of special templates did not really make a difference in these experiments, and in some cases the performance even decreased:
-
-![Results of experiments with special templates, Figure 6 in the paper](Pasted%20image%2020240306190502.png)
+![Results of experiments with special templates, Figure 6 in the paper](fig6.png)
 
 Another paper[^4] that came out just this year actually focused on the question of what templates work best. They came to the conclusion that it really depends on the entire setup including the data, model, and examples - so it seems to be a very delicate and complex issue. If that is true, the experiment results here make a lot of sense, because they are averaged over examples and datasets.
 
@@ -142,13 +141,13 @@ First up is the distribution of input text, meaning: what typical inputs from th
 %%For us humans, it is easy to distinguish casual phrasings used in social media from more formal and sophisticated language seen in e.g. newspaper articles, and we can also make %%
 To see how important this is, the authors conducted experiments where they used example inputs from a different corpus (<span style="color:#a39bd9">out-of-distribution</span> demos) than the final input/question for which the model is asked to choose a label.
 
-![Results of experiments with out-of-distribution inputs, Figure 8 in the paper](signal-2024-03-06-191542_002.png)
+![Results of experiments with out-of-distribution inputs, Figure 8 in the paper](fig8.png)
 
 The out-of-distribution examples lead to noticeably weaker performance, with the exception of direct inference with the MetaICL model.  %%The authors hypothesize that TODO: make task closer to language modeling]%%
 ##### Label space
 Similarly to how the examples show typical inputs for a task, they also show typical labels. To study the impact of this, the next experiment used <span style="color:#8dd3c7">random English words</span> instead of the actual labels. There are two levels of randomization here: the words are randomly sampled, assigned to the original labels and then randomly matched with inputs.
 
-![Results of experiments with random words as labels, Figure 9 in the paper](signal-2024-03-06-192511_002.png)
+![Results of experiments with random words as labels, Figure 9 in the paper](fig10.png)
 
 Apparently, there is a clear difference in trends between inference methods. For direct inference, there is a big performance drop, so having the correct label space represented in the examples seems to be very important for this type of inference. For the channel inference, the impact is much smaller. According to the authors, this is probably because this method only uses the labels for conditioning - so the model doesn't have to estimate the conditional probability of a label that it hasn't seen. 
 ##### Format
@@ -156,7 +155,7 @@ The most basic aspect of the examples is simply the fact that they are pairs of 
 
 The aim here was to see how using only inputs or only labels in the demonstrations compares to using both components, with the only difference being the format itself. Things like the input distribution or the label space are additional information separate to the format itself, so the most interesting comparisons here - apart from the baseline without examples - are how using <span style="color:#7570b3">no inputs</span> compares to using <span style="color:#a39bd9">OOD inputs</span>, and how using <span style="color:#1b9e77">no labels</span> compares to using <span style="color:#8dd3c7">random words as labels</span>.
 
-![Results of experiments with incomplete format, Figure 9 in the paper](signal-2024-03-06-195504.png)
+![Results of experiments with incomplete format, Figure 10 in the paper](fig11.png)
 
 With both variants (no inputs and no labels), we see much weaker performance overall. Especially in the classification tasks (upper part of the figure), the format seems to make a large difference in settings where having OOD inputs or random words as labels achieved good performance. It looks like **the format is very important**!
 ### Recap and Discussion
